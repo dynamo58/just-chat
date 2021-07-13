@@ -1,10 +1,14 @@
 const express = require('express');
 const app = express();
-const http = require('http');
-const server = http.createServer(app);
+const PORT = process.env.PORT || 5000;
 
-const { Server } = require("socket.io");
-const io = new Server(server);
+const http = require('http').Server(app);
+const io = require("socket.io")(http);
+
+http.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
+});
+
 
 // connect to database
 const sqlite = require('sqlite3').verbose()
@@ -45,4 +49,4 @@ io.on('connection', async (socket) => {
   })
 });
 
-server.listen(3000);
+//server.listen(3000);
