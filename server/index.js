@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 5000;
-
+const PORT = process.env.PORT || 3000;
 const http = require('http').Server(app);
 const io = require("socket.io")(http);
+
 
 http.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
@@ -16,19 +16,22 @@ let db = new sqlite.Database('./data/db.db', (err) => {
   if (err) console.log(err);
 });
 
+
 // promisify the db methods
 const util = require('util');
 db.run = util.promisify(db.run);
 db.get = util.promisify(db.get);
 db.all = util.promisify(db.all);
 
-const path = require('path');
-app.use(express.static(path.join(__dirname, 'public')));
 
+// server page to incoming GET requests
+app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile("index.html");
 });
 
+
+// handle connecting sockets
 io.on('connection', async (socket) => {
   let messages = await db.all(`SELECT * FROM messages ORDER BY 'id' ASC`);
 
@@ -39,9 +42,9 @@ io.on('connection', async (socket) => {
     socket.emit('chat message', {nick, text});
   }
 
-  socket.on('disconnect', () => {
-    console.log('[socket.io] a user disconnected');
-  });
+  // socket.on('disconnect', () => {
+  //     console.log('[socket.io] a user disconnected');
+  //   });
 
   socket.on('chat message', async (msg) => {
     await db.run(`INSERT INTO messages ('nick', 'msg') VALUES ('${msg.nick}', '${msg.text}');`)
