@@ -1,0 +1,16 @@
+{
+    "name": "socket.io-chat-application",
+    "version": "0.0.1",
+    "description": "Basic chat application to learn socket.io",
+    "scripts": {
+        "nodemon": "nodemon index.js"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "socket.io": "^4.1.3",
+        "sqlite3": "^5.0.2"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.12"
+    }
+}

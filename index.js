@@ -1,0 +1,48 @@
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+// connect to database
+const sqlite = require('sqlite3').verbose()
+let db = new sqlite.Database('./data/db.db', (err) => {
+  if (err) console.log(err);
+});
+
+// promisify the db methods
+const util = require('util');
+db.run = util.promisify(db.run);
+db.get = util.promisify(db.get);
+db.all = util.promisify(db.all);
+
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+  res.sendFile("index.html");
+});
+
+io.on('connection', async (socket) => {
+  let messages = await db.all(`SELECT * FROM messages ORDER BY 'id' ASC`);
+
+  for (let message of messages) {
+    let nick = message.nick;
+    let text = message.msg;
+
+    socket.emit('chat message', {nick, text});
+  }
+
+  socket.on('disconnect', () => {
+    console.log('[socket.io] a user disconnected');
+  });
+
+  socket.on('chat message', async (msg) => {
+    await db.run(`INSERT INTO messages ('nick', 'msg') VALUES ('${msg.nick}', '${msg.text}');`)
+    io.emit('chat message', msg);
+  })
+});
+
+server.listen(3000);
