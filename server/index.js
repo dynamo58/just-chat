@@ -11,7 +11,7 @@ http.listen(PORT, () => {
 
 
 // connect to database
-const sqlite = require('sqlite3').verbose()
+const sqlite = require('sqlite3').verbose();
 let db = new sqlite.Database('./data/db.db', (err) => {
   if (err) console.log(err);
 });
@@ -24,11 +24,17 @@ db.get = util.promisify(db.get);
 db.all = util.promisify(db.all);
 
 
-// server page to incoming GET requests
-app.use(express.static('public'));
-app.get('/', (req, res) => {
-  res.sendFile("index.html");
-});
+// Handle HTML requests
+const path = require('path');
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+app.use('/', require('./routes/home'));
+app.use('/signup', require('./routes/signup'));
+app.use('/signin', require('./routes/signin'));
+
 
 
 // handle connecting sockets
@@ -41,10 +47,6 @@ io.on('connection', async (socket) => {
 
     socket.emit('chat message', {nick, text});
   }
-
-  // socket.on('disconnect', () => {
-  //     console.log('[socket.io] a user disconnected');
-  //   });
 
   socket.on('chat message', async (msg) => {
     await db.run(`INSERT INTO messages ('nick', 'msg') VALUES ('${msg.nick}', '${msg.text}');`)

@@ -1,3 +1,6 @@
+# Warning ⚠️
+**This application is being worked on and is not yet ready for usage**
+
 # About
 
 just-chat is a very simple chat app made with [Node.js](https://nodejs.org/en/) and especially [socket.io](https://socket.io/). It is very simple, lightweight and deploy-ready.

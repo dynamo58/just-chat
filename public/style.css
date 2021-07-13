@@ -6,9 +6,77 @@ body {
     color: whitesmoke;
 }
 
+a {
+    text-decoration: none;
+    font-weight: 700;
+    color: #3fb986;
+}
+
 li {
     list-style-type: none;
     margin: 1em 0;
+}
+
+.navbar{
+    display: flex;
+    border-bottom: 2px solid white;
+    padding: 1em 2em;
+}
+
+.button, .button:link, .button:visited, .button:hover, .button:active {
+    text-decoration: none;
+    color: #fff;
+    padding: 0.5em 1em;
+    border: 1px solid #fff;
+    border-radius: 50px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button-blue {
+    background-color: #3e8cb9aa;
+}
+
+.signupForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 3em auto;
+    width: 50vw;
+    padding: 1.2em;
+    border-radius: 1em;
+    border: 2px solid #fff;
+    border-radius: 10px;
+}
+
+.signupForm > form {
+    text-align: center;
+}
+
+.input_field {
+    box-sizing: border-box;
+    display: block;
+    width: 15em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.75em 0.5em;
+    color: currentColor;
+    background: transparent;
+    border-radius: 10px;
+}
+
+#invalid_tos, #invalid_credentials {
+    color: #ff0000;
+}
+
+#processing_err {
+    color: #ffaa00;
+}
+
+#success {
+    color: #00FF00;
 }
 
 #form {
@@ -21,7 +89,6 @@ li {
     display: flex;
     height: 3rem;
     box-sizing: border-box;
-    backdrop-filter: blur(10px);
 }
 
 #input, #nickname {

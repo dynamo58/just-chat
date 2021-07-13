@@ -2,23 +2,25 @@
 <html>
 
 <head>
-    <title>Socket.IO chat</title>
-    <link rel="stylesheet" href="style.css">
+    <title>just-chat</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 
 <body>
+    <div class="navbar">
+        <a class="button button-blue" href="/signup">Register</a>
+    </div>
     <div id="messages">
         <ul id="own_messages"></ul>
         <ul id="foreign_messages"></ul>
     </div>
     <form id="form" action="">
-        <input id="input"  autocomplete="off" />
-        <input id="nickname" placeholder="Set a nickname"/>
+        <input id="input" autocomplete="off" />
         <button>Send</button>
     </form>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="main.js"></script>
+    <script src="home.js"></script>
 </body>
 
 </html>
