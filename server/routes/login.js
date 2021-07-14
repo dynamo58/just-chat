@@ -2,11 +2,9 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 
+let publicDir = path.join(__dirname, '..', '..', 'public', 'login');
 
-
-let publicDir = path.join(__dirname, '..', '..', 'public', 'signup');
-
-router.get('/', (req, res, next) => {
+router.get('/', async (req, res, next) => {
     res.sendFile('index.html', {root: publicDir}, (err) => {
         if (err) console.log(err);
     });
@@ -33,35 +31,54 @@ router.post('/', async (req, res, next) => {
     if (nickname_regex == null || password_regex == null) {
         res.status(400).json({
             error: true,
-            message: 'Nickname or password format invalid'
+            message: 'Nickname or password invalid'
         });
       return;
     }
 
     let usersWithNickname = await db.all(`SELECT * FROM users WHERE name='${req.body.nickname}'`);
 
-    if (usersWithNickname.length != 0) {
+    if (usersWithNickname.length != 1) {
       res.status(400).json({
           error: true,
-          message: 'Nickname already taken!'
+          message: 'Nickname or password invalid'
       });
       return;
     }
 
-    bcrypt.hash(req.body.password, 10, async (err, hash) => {
-      if (err) {
-        res.status(500).json({
+    bcrypt.compare(req.body.password, usersWithNickname[0].password, (err, result) => {
+        if (err) {
+            return res.status(500).json({
+                error: true,
+                message: 'Server-side error has occured, please try again'
+            });
+        }
+
+        if (result) {
+            const jwt = require('jsonwebtoken');
+
+            const token = jwt.sign(
+            {
+                nickname: usersWithNickname[0].name,
+                id: usersWithNickname[0].id
+            },
+            process.env.JWT_KEY,
+            {
+                expiresIn: "1h"
+            });
+
+            res.cookie('_a', token, {maxAge: 3600000, sameSite: 'strict', secure: true});
+
+            return res.status(200).json({
+                error: false,
+                message: "Sucessfully logged in",
+            })
+        }
+
+        return res.status(400).json({
             error: true,
-            message: 'Server-side error has occured, please try again'
+            message: 'Nickname or password invalid'
         });
-        return;
-      } else {
-        await db.run(`INSERT INTO users(name, password) VALUES ('${req.body.nickname}', '${hash}')`);
-        res.status(200).json({
-            error: false,
-            message: 'Success, account created'
-        })
-      }
     });
 });
 

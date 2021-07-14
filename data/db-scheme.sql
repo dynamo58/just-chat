@@ -11,6 +11,6 @@ CREATE TABLE messages(
 --@block
 CREATE TABLE users(
     'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    'name' VARCHAR(16),
-    'password' VARCHAR(32)
+    'name' VARCHAR(16) UNIQUE NOT NULL,
+    'password' VARCHAR(32) NOT NULL
 );

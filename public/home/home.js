@@ -1,45 +1,65 @@
-let socket = io.connect();
+//document.getElementById('messages').setAttribute('height');
+window.onload = () => {
+    let h =document.getElementById('messages').clientHeight;
+    document.getElementById('messages').style.maxHeight = h + "px";
 
-let form = document.getElementById('form');
-let input = document.getElementById('input');
-let nickname = document.getElementById('nickname');
-let own_messages = document.getElementById('own_messages');
-let foreign_messages = document.getElementById('foreign_messages');
+    const socket = io.connect();
+
+    //console.log(socket);
+
+    let form = document.getElementById('form');
+    let input = document.getElementById('input');
+    let own_messages = document.getElementById('own_messages');
+    let foreign_messages = document.getElementById('foreign_messages');
 
 
-// handle message sending
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
+    // handle message sending
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (socket.clientNickname) {
+            if (input.value) {
+                socket.emit('message', { "text": input.value });
+                input.value = '';
+            }
+        } else {
+            alert('You are not logged in');
+        }
+    });
 
-    if (input.value && nickname.value) {
-        messageData = {
-            "nick": nickname.value,
-            "text": input.value
+    socket.on('authentification result', (auth) => {
+        if (auth.error) {
+            console.log(auth.message);
+            return;
         }
 
-        socket.emit('chat message', messageData);
-        input.value = '';
-    }
-});
+        socket.clientNickname = auth.nickname;
 
+        const status_bar = document.getElementById('status');
+        const log_button = document.getElementById('log_button');
+        status_bar.textContent = 'Logged in as ' + auth.nickname;
+        log_button.setAttribute('href', '/logout');
+        log_button.textContent = 'Log out';
 
-// handle incoming messages from the server
-socket.on('chat message', (msg) => {
-    let item = document.createElement('li');
-    let fake_item = document.createElement('li');
-    fake_item.textContent = "⠀";
-    fake_item.classList.add('fake_message');
+        socket.emit('request previous messages', {});
+    });
 
-    if (msg.nick == nickname.value) {
-        item.textContent = msg.text;
-        own_messages.appendChild(item);
-        foreign_messages.appendChild(fake_item);
-    } else {
-        item.textContent = msg.nick + ": " + msg.text;
-        foreign_messages.appendChild(item);
-        own_messages.appendChild(fake_item);
-    }
-    item.classList.add('message');
+    socket.on('message', (msg) => {
+        let item = document.createElement('li');
+        let fake_item = document.createElement('li');
+        fake_item.innerHTML = '<span class="message_content">⠀</span>';
+        fake_item.classList.add('fake_message');
 
-    window.scrollTo(0, document.body.scrollHeight);
-});
+        if (msg.nick == socket.clientNickname) {
+            item.innerHTML = `<span class="message_content">${msg.text}</span>` ;
+            own_messages.appendChild(item);
+            foreign_messages.appendChild(fake_item);
+        } else {
+            item.innerHTML = `<span class="message_content">${msg.nick}: ${msg.text}</span>`;
+            foreign_messages.appendChild(item);
+            own_messages.appendChild(fake_item);
+        }
+        item.classList.add('message');
+
+        document.getElementById('messages').scrollTo(0, document.getElementById('messages').scrollHeight);
+    });
+}

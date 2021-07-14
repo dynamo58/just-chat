@@ -1,5 +1,4 @@
-let form = document.getElementById('signup_form');
-let tos_checkbox = document.getElementById('tos_checkbox');
+let form = document.getElementById('login_form');
 let nickname = document.getElementsByName('nickname')[0];
 let password = document.getElementsByName('password')[0];
 
@@ -8,10 +7,6 @@ form.addEventListener('submit', async (e) => {
 
     try {
         document.getElementById('invalid_credentials').outerHTML = '';
-    } catch {}
-
-    try {
-        document.getElementById('invalid_tos').outerHTML = '';
     } catch {}
 
     try {
@@ -31,16 +26,7 @@ form.addEventListener('submit', async (e) => {
         invalidCredentials.setAttribute('id', 'invalid_credentials');
         invalidCredentials.textContent = 'Invalid nickname or password';
         form.appendChild(invalidCredentials);
-        
-        return;
-    }
-    
-    if (!tos_checkbox.checked) {
-        let invalidCredentials = document.createElement('p');
-        invalidCredentials.setAttribute('id', 'invalid_tos');
-        invalidCredentials.textContent = 'You must agree to the ToS';
-        form.appendChild(invalidCredentials);
-        
+
         return;
     }
 
@@ -62,18 +48,10 @@ form.addEventListener('submit', async (e) => {
             let response_info = document.createElement('p');
             if (res.error) {
                 response_info.setAttribute('id', 'processing_err');
+                response_info.textContent = res.message;
+                form.appendChild(response_info);
             } else {
-                response_info.setAttribute('id', 'success');
-
-                let redirect_info = document.createElement('p');
-                redirect_info.textContent = 'You will be redirected to login page in 5s';
-                redirect_info.setAttribute('id', 'success');
-                form.appendChild(redirect_info);
-                setTimeout(() => {
-                    window.location.href = '/login';
-                }, 5000);
+                window.location.href = '/';
             }
-            response_info.textContent = res.message;
-            form.appendChild(response_info);
         });
 });

@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
+    <link rel='icon' href='../favicon.ico'>
     <link rel='stylesheet' href='../style.css'>
     <title>Sign up @just-chat</title>
 </head>
 <body>
+    <div class='navbar'>
+        <a href="/"><img class='logo' src='../logo.gif'></a>
+        <span id='status' class='status'></span>
+        <a class='button button-blue' href='/login'>Log in</a>
+    </div>
     <div class='signupForm'>
         <h1 class='title'>Create an account</h1>
         <p>
             Already have an account?&nbsp;
-            <a href='../login'>Log In</a>
+            <a href='../login'>Log in</a>
         </p>
-        <form id='signup_form' action='#' method='GET'>
+        <form id='signup_form' action=''>
             <input
                 type='text'
                 name='nickname'

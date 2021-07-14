@@ -1,151 +1,223 @@
-body {
-    margin: 0;
-    padding-bottom: 3rem;
-    font-family: "Segoe UI";
-    background-color: #303030;
-    color: whitesmoke;
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: "Segoe UI";
+  background: linear-gradient(135deg, #6a3a8e 3%, #392111 96%);
+  color: whitesmoke;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
 }
 
 a {
-    text-decoration: none;
-    font-weight: 700;
-    color: #3fb986;
+  text-decoration: none;
+  font-weight: 700;
+  color: #3fb986;
 }
 
 li {
-    list-style-type: none;
-    margin: 1em 0;
+  list-style-type: none;
+  margin: 1em 0;
 }
 
-.navbar{
-    display: flex;
-    border-bottom: 2px solid white;
-    padding: 1em 2em;
+.logo {
+  height: 2em;
+  width: 7em;
+}
+
+.navbar {
+  margin-top: 0;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: 2px solid white;
+  padding: 0.5em 1em;
+  height: 2.5em !important;
+  background-color: #202020;
+}
+
+.status {
+  font-size: 20px;
+  display: inline-block;
+  vertical-align: baseline;
 }
 
 .button, .button:link, .button:visited, .button:hover, .button:active {
-    text-decoration: none;
-    color: #fff;
-    padding: 0.5em 1em;
-    border: 1px solid #fff;
-    border-radius: 50px;
+  text-decoration: none;
+  color: #fff;
+  padding: 0.5em 1em;
+  border: 1px solid #fff;
+  border-radius: 50px;
 }
 
-.button:hover {
-    cursor: pointer;
+.button:hover, .button:link:hover, .button:visited:hover, .button:hover:hover, .button:active:hover {
+  cursor: pointer;
 }
 
-.button-blue {
-    background-color: #3e8cb9aa;
+.button.button-blue, .button:link.button-blue, .button:visited.button-blue, .button:hover.button-blue, .button:active.button-blue {
+  background-color: #3e8cb9aa;
 }
 
-.signupForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 3em auto;
-    width: 50vw;
-    padding: 1.2em;
-    border-radius: 1em;
-    border: 2px solid #fff;
-    border-radius: 10px;
+.signupForm, .loginForm {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 3em auto;
+  width: 50vw;
+  padding: 1.2em;
+  border-radius: 1em;
+  border: 2px solid #fff;
+  border-radius: 10px;
 }
 
-.signupForm > form {
-    text-align: center;
+.signupForm > form, .loginForm > form {
+  text-align: center;
 }
 
 .input_field {
-    box-sizing: border-box;
-    display: block;
-    width: 15em;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0.75em 0.5em;
-    color: currentColor;
-    background: transparent;
-    border-radius: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: block;
+  width: 15em;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.75em 0.5em;
+  color: currentColor;
+  background: transparent;
+  border-radius: 10px;
 }
 
 #invalid_tos, #invalid_credentials {
-    color: #ff0000;
+  color: #ff0000;
 }
 
 #processing_err {
-    color: #ffaa00;
+  color: #ffaa00;
 }
 
 #success {
-    color: #00FF00;
+  color: #00FF00;
 }
 
-#form {
-    background: rgba(0, 0, 0, 0.15);
-    padding: 0.25rem;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    height: 3rem;
-    box-sizing: border-box;
+.send_message_panel {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  height: 3rem;
 }
 
-#input, #nickname {
-    border: none;
-    padding: 0 1rem;
-    flex-grow: 1;
-    border-radius: 2rem;
-    margin: 0.25rem;
-}
-
-#input {
-    flex-grow: 8;
+#input, #nickname, #send_button {
+  border: none;
+  padding: 0 1rem;
+  border-radius: 100px;
+  margin: 0.25rem;
 }
 
 #input:focus {
-    outline: none;
+  outline: none;
 }
 
-#form>button {
-    background: #333;
-    border: none;
-    padding: 0 1rem;
-    margin: 0.25rem;
-    border-radius: 3px;
-    outline: none;
-    color: #fff;
+#form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  background: none;
+}
+
+#form > #input {
+  -webkit-box-flex: 8;
+      -ms-flex-positive: 8;
+          flex-grow: 8;
+}
+
+#form > button {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: none;
+}
+
+.chat_panel {
+  width: max(50vw, 30em);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  margin: 0 auto;
+  border-left: 2px solid #606060;
+  border-right: 2px solid #606060;
+}
+
+.chat_panel, .loginForm, .signupForm {
+  background-color: #00000033;
 }
 
 #messages {
-    position:relative;
-    width: max(50vw, 30em);
-    margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  width: 100%;
+  overflow: auto;
 }
 
-.message, .fake_message {
-    padding: 0.5em 0.7em;
-    border-radius: 100px;
-}
-
-#own_messages {
-    position: absolute;
-    right: 0;
-    top: 0;
+#messages > div {
+  width: 50%;
 }
 
 #own_messages li.message {
-    text-align: right;
-    background-color: #4179c288;
+  text-align: right;
 }
 
-#foreign_messages {
-    position: absolute;
-    left: 0;
-    top: 0;
+#own_messages li.message > .message_content {
+  background-color: #4179c288;
 }
 
 #foreign_messages li.message {
-    text-align: left;
-    background-color: #b743c288;
+  text-align: left;
 }
+
+#foreign_messages li.message > .message_content {
+  background-color: #b743c288;
+}
+
+.message_content {
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin: 0 1em;
+  border-radius: 100px;
+  min-width: 3em;
+}
+/*# sourceMappingURL=style.css.map */

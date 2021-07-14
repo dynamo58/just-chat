@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,29 +30,53 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/', require('./routes/home'));
 app.use('/signup', require('./routes/signup'));
-app.use('/signin', require('./routes/signin'));
+app.use('/login', require('./routes/login'));
+app.use('/logout', require('./routes/logout'));
 
+const jwt = require('jsonwebtoken');
+io.use((socket, next) => {
+  let cookie = socket.handshake.headers.cookie;
+  cookie = cookie.substr(cookie.indexOf('_a=')+3);
+  jwt.verify(cookie, process.env.JWT_KEY, (err, decoded) => {
+    if (err) {
+      socket.emit('authentification result', {
+        error: true,
+        message: 'Invalid / nonexistant token, please log in.'
+      });
+      return
+    }
 
+    socket.emit('authentification result', {
+      error: false,
+      message: 'Token validation successfull',
+      nickname: decoded.nickname
+    });
 
-// handle connecting sockets
-io.on('connection', async (socket) => {
-  let messages = await db.all(`SELECT * FROM messages ORDER BY 'id' ASC`);
+    socket.decoded = decoded;
+    next();
+  });
+}).on('connection', (socket) => {
+  socket.on('request previous messages', async () => {
+    let messages = await db.all(`SELECT * FROM messages ORDER BY 'id' ASC`);
 
-  for (let message of messages) {
-    let nick = message.nick;
-    let text = message.msg;
+    for (let message of messages) {
+      let nick = message.user;
+      let text = message.msg;
 
-    socket.emit('chat message', {nick, text});
-  }
+      socket.emit('message', {nick, text});
+    }
+  });
 
-  socket.on('chat message', async (msg) => {
-    await db.run(`INSERT INTO messages ('nick', 'msg') VALUES ('${msg.nick}', '${msg.text}');`)
-    io.emit('chat message', msg);
+  socket.on('message', async (msg) => {
+    await db.run(`INSERT INTO messages ('user', 'msg') VALUES ('${socket.decoded.nickname}', '${msg.text}');`)
+
+    io.emit('message', {
+      text: msg.text,
+      nick: socket.decoded.nickname
+    })
   })
 });
-
-//server.listen(3000);

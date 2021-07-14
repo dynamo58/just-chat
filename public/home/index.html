@@ -2,25 +2,44 @@
 <html>
 
 <head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>just-chat</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel='icon' href='../favicon.ico'>
+    <link rel='stylesheet' href='../style.css'>
 </head>
 
 <body>
-    <div class="navbar">
-        <a class="button button-blue" href="/signup">Register</a>
+    <div class='navbar'>
+        <a href="/"><img class='logo' src='../logo.gif'></a>
+        <span id='status' class='status'>~ not logged in ~</span>
+        <a id='log_button' class='button button-blue' href='/login'>Log in</a>
     </div>
-    <div id="messages">
-        <ul id="own_messages"></ul>
-        <ul id="foreign_messages"></ul>
+    <div class="chat_panel">
+        <div id='messages'>
+            <div class="foreign_messages_box">
+                <ul id='foreign_messages'></ul>
+            </div>
+            <div class="own_messages_box">
+                <ul id='own_messages'></ul>
+            </div>
+        </div>
+        
+        <div class="send_message_panel">
+            <form id='form' action=''>
+                <input
+                    id='input' 
+                    placeholder='Send a message' 
+                    autocomplete='off'
+                />
+                <button id='send_button'>Send</button>
+            </form>
+        </div>
     </div>
-    <form id="form" action="">
-        <input id="input" autocomplete="off" />
-        <button>Send</button>
-    </form>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="home.js"></script>
+    <script src='/socket.io/socket.io.js'></script>
+    <script src='../home/home.js'></script>
 </body>
 
 </html>
