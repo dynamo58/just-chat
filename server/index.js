@@ -26,8 +26,8 @@ const client = new Client({
 client.connect();
 
 client.query(`
-DROP TABLE users;
 DROP TABLE messages;
+DROP TABLE users;
 CREATE TABLE IF NOT EXISTS users(
   id SERIAL PRIMARY KEY,
   name VARCHAR(16) UNIQUE NOT NULL,
