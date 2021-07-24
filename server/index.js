@@ -1,28 +1,58 @@
-//require('dotenv').config();
+try {
+  require('dotenv').config();
+} catch {}
+
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const http = require('http').Server(app);
 const io = require("socket.io")(http);
+const { Client } = require('pg');
 
 
 http.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-
 // connect to database
-const sqlite = require('sqlite3').verbose();
-let db = new sqlite.Database('./data/db.db', (err) => {
-  if (err) console.log(err);
+const connectionString = process.env.DATABASE_URL
+const client = new Client({
+  connectionString,
 });
 
+client.connect();
 
-// promisify the db methods
-const util = require('util');
-db.run = util.promisify(db.run);
-db.get = util.promisify(db.get);
-db.all = util.promisify(db.all);
+client.query(`
+--@block
+CREATE TABLE IF NOT EXISTS users(
+  'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  'name' VARCHAR(16) UNIQUE NOT NULL,
+  'password' VARCHAR(32) NOT NULL
+);
+`, (err) => {
+  if (err) console.log({err})
+})
+
+client.query(`
+--@block
+CREATE TABLE IF NOT EXISTS messages(
+    'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    'user' NOT NULL,
+    'msg' VARCHAR(1024) NOT NULL,
+    'time' DATETIME NOT NULL DEFAULT (strftime('%d.%m.%Y %H:%M:%S', 'now', 'localtime')),
+    FOREIGN KEY (user) REFERENCES users(name)
+);
+`, (err) => {
+  if (err) console.log({err})
+});
+
+client.query(`INSERT INTO users ('name', 'password') VALUES ('hackermans', 'hackme')`, (err) => {
+  if (err) console.log({err});
+})
+
+client.query(`INSERT INTO messages ('user', 'msg') VALUES ('hackermans', '1337')`, (err) => {
+  if (err) console.log({err});
+})
 
 
 // Handle HTML requests
@@ -61,18 +91,21 @@ io.use((socket, next) => {
   });
 }).on('connection', (socket) => {
   socket.on('request previous messages', async () => {
-    let messages = await db.all(`SELECT * FROM messages ORDER BY 'id' ASC`);
-
-    for (let message of messages) {
-      let nick = message.user;
-      let text = message.msg;
-
-      socket.emit('message', {nick, text});
-    }
+    client.query(`SELECT * FROM messages ORDER BY 'id' ASC`, (err, res) => {
+      if (err) console.log({err});
+      for (let message of res) {
+        let nick = message.user;
+        let text = message.msg;
+  
+        socket.emit('message', {nick, text});
+      }
+    });
   });
 
   socket.on('message', async (msg) => {
-    await db.run(`INSERT INTO messages ('user', 'msg') VALUES ('${socket.decoded.nickname}', '${msg.text}');`)
+    client.query(`INSERT INTO messages ('user', 'msg') VALUES ('${socket.decoded.nickname}', '${msg.text}');`, (err, res) => {
+      if (err) console.log({err});
+    });
 
     io.emit('message', {
       text: msg.text,
