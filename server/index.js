@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS messages(
   console.log({res});
 });
 
-client.query(`INSERT INTO users (name, password) VALUES (hackermans, hackme)`, (err, res) => {
+client.query(`INSERT INTO users (name, password) VALUES ('hackermans', 'hackme')`, (err, res) => {
   if (err) {
     console.log({err});
     return;
@@ -67,7 +67,16 @@ client.query(`INSERT INTO users (name, password) VALUES (hackermans, hackme)`, (
   console.log({res});
 });
 
-client.query(`INSERT INTO messages (user, msg) VALUES (hackermans, 1337)`, (err, res) => {
+client.query(`INSERT INTO messages (name, msg) VALUES ('hackermans', '1337')`, (err, res) => {
+  if (err) {
+    console.log({err});
+    return;
+  }
+
+  console.log({res});
+});
+
+client.query(`SELECT * FROM messages`, (err, res) => {
   if (err) {
     console.log({err});
     return;
@@ -112,8 +121,14 @@ io.use((socket, next) => {
   });
 }).on('connection', (socket) => {
   socket.on('request previous messages', async () => {
-    client.query(`SELECT * FROM messages ORDER BY 'id' ASC`, (err, res) => {
-      if (err) console.log({err});
+    client.query(`SELECT * FROM messages ORDER BY id ASC`, (err, res) => {
+      if (err) {
+        console.log({err});
+        return;
+      }
+
+      console.log({res});
+
       for (let message of res) {
         let nick = message.user;
         let text = message.msg;
@@ -124,7 +139,7 @@ io.use((socket, next) => {
   });
 
   socket.on('message', async (msg) => {
-    client.query(`INSERT INTO messages ('user', 'msg') VALUES ('${socket.decoded.nickname}', '${msg.text}');`, (err, res) => {
+    client.query(`INSERT INTO messages (name, msg) VALUES ('${socket.decoded.nickname}', '${msg.text}');`, (err, res) => {
       if (err) console.log({err});
     });
 
