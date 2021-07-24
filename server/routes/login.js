@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     const bcrypt = require('bcrypt');
-
+    const { Client } = require('pg');
     const connectionString = process.env.DATABASE_URL;
     const client = new Client({
         connectionString,
