@@ -43,8 +43,11 @@ CREATE TABLE IF NOT EXISTS users(
 client.query(`
 CREATE TABLE IF NOT EXISTS messages(
     id SERIAL PRIMARY KEY,
-    user VARCHAR(16),
-    msg VARCHAR(2048)
+    name VARCHAR(16),
+    msg VARCHAR(2047),
+    CONSTRAINT fk_user
+      FOREIGN KEY(name)
+        REFERENCES users(name)
 );
 `, (err, res) => {
   if (err) {
