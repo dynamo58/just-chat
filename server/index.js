@@ -29,8 +29,14 @@ CREATE TABLE IF NOT EXISTS users(
   'name' VARCHAR(16) UNIQUE NOT NULL,
   'password' VARCHAR(32) NOT NULL
 );
-`, (err) => {
-  if (err) console.log({err})
+`, (err, res) => {
+  if (err) {
+    console.log({err});
+    return;
+  }
+
+  console.log({res});
+  client.end();
 })
 
 client.query(`
@@ -42,18 +48,35 @@ CREATE TABLE IF NOT EXISTS messages(
     'time' DATETIME NOT NULL DEFAULT (strftime('%d.%m.%Y %H:%M:%S', 'now', 'localtime')),
     FOREIGN KEY (user) REFERENCES users(name)
 );
-`, (err) => {
-  if (err) console.log({err})
+`, (err, res) => {
+  if (err) {
+    console.log({err});
+    return;
+  }
+
+  console.log({res});
+  client.end();
 });
 
-client.query(`INSERT INTO users ('name', 'password') VALUES ('hackermans', 'hackme')`, (err) => {
-  if (err) console.log({err});
-})
+client.query(`INSERT INTO users ('name', 'password') VALUES ('hackermans', 'hackme')`, (err, res) => {
+  if (err) {
+    console.log({err});
+    return;
+  }
 
-client.query(`INSERT INTO messages ('user', 'msg') VALUES ('hackermans', '1337')`, (err) => {
-  if (err) console.log({err});
-})
+  console.log({res});
+  client.end();
+});
 
+client.query(`INSERT INTO messages ('user', 'msg') VALUES ('hackermans', '1337')`, (err, res) => {
+  if (err) {
+    console.log({err});
+    return;
+  }
+
+  console.log({res});
+  client.end();
+});
 
 // Handle HTML requests
 const path = require('path');
