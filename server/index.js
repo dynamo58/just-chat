@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS users(
   }
 
   console.log({res});
-  client.end();
 })
 
 client.query(`
@@ -56,7 +55,6 @@ CREATE TABLE IF NOT EXISTS messages(
   }
 
   console.log({res});
-  client.end();
 });
 
 client.query(`INSERT INTO users ('name', 'password') VALUES ('hackermans', 'hackme')`, (err, res) => {
@@ -66,7 +64,6 @@ client.query(`INSERT INTO users ('name', 'password') VALUES ('hackermans', 'hack
   }
 
   console.log({res});
-  client.end();
 });
 
 client.query(`INSERT INTO messages ('user', 'msg') VALUES ('hackermans', '1337')`, (err, res) => {
@@ -76,7 +73,6 @@ client.query(`INSERT INTO messages ('user', 'msg') VALUES ('hackermans', '1337')
   }
 
   console.log({res});
-  client.end();
 });
 
 // Handle HTML requests
