@@ -36,8 +36,6 @@ CREATE TABLE IF NOT EXISTS users(
     console.log({err});
     return;
   }
-
-  console.log({res});
 })
 
 client.query(`
@@ -54,8 +52,6 @@ CREATE TABLE IF NOT EXISTS messages(
     console.log({err});
     return;
   }
-
-  console.log({res});
 });
 
 client.query(`INSERT INTO users (name, password) VALUES ('hackermans', 'hackme')`, (err, res) => {
@@ -63,8 +59,6 @@ client.query(`INSERT INTO users (name, password) VALUES ('hackermans', 'hackme')
     console.log({err});
     return;
   }
-
-  console.log({res});
 });
 
 client.query(`INSERT INTO messages (name, msg) VALUES ('hackermans', '1337')`, (err, res) => {
@@ -72,8 +66,6 @@ client.query(`INSERT INTO messages (name, msg) VALUES ('hackermans', '1337')`, (
     console.log({err});
     return;
   }
-
-  console.log({res});
 });
 
 client.query(`SELECT * FROM messages`, (err, res) => {
@@ -82,7 +74,7 @@ client.query(`SELECT * FROM messages`, (err, res) => {
     return;
   }
 
-  console.log({res});
+  console.log(res.rows);
 });
 
 // Handle HTML requests
