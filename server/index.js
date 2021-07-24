@@ -44,9 +44,11 @@ client.query(`
 --@block
 CREATE TABLE IF NOT EXISTS messages(
     id SERIAL PRIMARY KEY,
-    user NOT NULL,
+    user VARCHAR(16) NOT NULL,
     msg VARCHAR(2048) NOT NULL,
-    FOREIGN KEY (user) REFERENCES users(name)
+    CONSTAINT fk_user
+      FOREIGN KEY (user)
+        REFERENCES users(name)
 );
 `, (err, res) => {
   if (err) {
@@ -57,7 +59,7 @@ CREATE TABLE IF NOT EXISTS messages(
   console.log({res});
 });
 
-client.query(`INSERT INTO users ('name', 'password') VALUES ('hackermans', 'hackme')`, (err, res) => {
+client.query(`INSERT INTO users (name, password) VALUES (hackermans, hackme)`, (err, res) => {
   if (err) {
     console.log({err});
     return;
@@ -66,7 +68,7 @@ client.query(`INSERT INTO users ('name', 'password') VALUES ('hackermans', 'hack
   console.log({res});
 });
 
-client.query(`INSERT INTO messages ('user', 'msg') VALUES ('hackermans', '1337')`, (err, res) => {
+client.query(`INSERT INTO messages (user, msg) VALUES (hackermans, 1337)`, (err, res) => {
   if (err) {
     console.log({err});
     return;
