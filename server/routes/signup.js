@@ -59,7 +59,7 @@ router.post('/', async (req, res, next) => {
           });
           return;
         } else {
-          client.query(`INSERT INTO users(name, password) VALUES ('${req.body.nickname}', '${hash}')`, (err, res) => {
+          client.query(`INSERT INTO users(name, password) VALUES ('${req.body.nickname}', '${hash}')`, (err) => {
             if (err) {
               console.log(err);
               return;

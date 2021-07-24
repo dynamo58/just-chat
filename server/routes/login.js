@@ -34,13 +34,13 @@ router.post('/', async (req, res, next) => {
       return;
     }
 
-    client.query(`SELECT * FROM users WHERE name='${req.body.nickname}'`, (err, res) => {
+    client.query(`SELECT * FROM users WHERE name='${req.body.nickname}'`, (err, queryRes) => {
         if (err) {
             console.log(err);
             return;
         }
 
-        if (res.rows.length != 1) {
+        if (queryRes.rows.length != 1) {
             res.status(400).json({
                 error: true,
                 message: 'Nickname or password invalid'
@@ -48,7 +48,7 @@ router.post('/', async (req, res, next) => {
             return;
         }
 
-        bcrypt.compare(req.body.password, res.rows[0].password, (err, result) => {
+        bcrypt.compare(req.body.password, queryRes.rows[0].password, (err, result) => {
             if (err) {
                 return res.status(500).json({
                     error: true,
