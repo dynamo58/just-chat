@@ -37,13 +37,13 @@ router.post('/', async (req, res, next) => {
       return;
     }
 
-    client.query(`SELECT * FROM users WHERE name='${req.body.nickname}'`, (err, res) => {
+    client.query(`SELECT * FROM users WHERE name='${req.body.nickname}'`, (err, queryRes) => {
       if (err) {
         console.log(err);
         return;
       }
 
-      if (res.rows.length != 0) {
+      if (queryRes.rows.length != 0) {
         res.status(400).json({
             error: true,
             message: 'Nickname already taken!'
@@ -59,7 +59,7 @@ router.post('/', async (req, res, next) => {
           });
           return;
         } else {
-          client.query(`INSERT INTO users(name, password) VALUES ('${req.body.nickname}', '${hash}')`, (err) => {
+          client.query(`INSERT INTO users(name, password) VALUES ('${req.body.nickname}', '${hash}')`, (err, queryRes2) => {
             if (err) {
               console.log(err);
               return;
