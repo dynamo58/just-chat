@@ -26,10 +26,12 @@ const client = new Client({
 client.connect();
 
 client.query(`
+DROP TABLE users;
+DROP TABLE messages;
 CREATE TABLE IF NOT EXISTS users(
   id SERIAL PRIMARY KEY,
   name VARCHAR(16) UNIQUE NOT NULL,
-  password VARCHAR(32) NOT NULL
+  password VARCHAR(64) NOT NULL
 );
 `, (err, res) => {
   if (err) {
