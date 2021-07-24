@@ -27,9 +27,9 @@ client.connect();
 
 client.query(`
 CREATE TABLE IF NOT EXISTS users(
-  'id' INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  'name' VARCHAR(16) UNIQUE NOT NULL,
-  'password' VARCHAR(32) NOT NULL
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(16) UNIQUE NOT NULL,
+  password VARCHAR(32) NOT NULL
 );
 `, (err, res) => {
   if (err) {
@@ -44,10 +44,9 @@ CREATE TABLE IF NOT EXISTS users(
 client.query(`
 --@block
 CREATE TABLE IF NOT EXISTS messages(
-    'id' INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    'user' NOT NULL,
-    'msg' VARCHAR(1024) NOT NULL,
-    'time' DATETIME NOT NULL DEFAULT (strftime('%d.%m.%Y %H:%M:%S', 'now', 'localtime')),
+    id SERIAL PRIMARY KEY,
+    user NOT NULL,
+    msg VARCHAR(2048) NOT NULL,
     FOREIGN KEY (user) REFERENCES users(name)
 );
 `, (err, res) => {
