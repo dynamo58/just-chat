@@ -61,8 +61,8 @@ router.post('/', async (req, res, next) => {
     
                 const token = jwt.sign(
                 {
-                    nickname: res.rows[0].name,
-                    id: res.rows[0].id
+                    nickname: queryRes.rows[0].name,
+                    id: queryRes.rows[0].id
                 },
                 process.env.JWT_KEY,
                 {
