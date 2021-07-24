@@ -54,20 +54,6 @@ CREATE TABLE IF NOT EXISTS messages(
   }
 });
 
-client.query(`INSERT INTO users (name, password) VALUES ('hackermans', 'hackme')`, (err, res) => {
-  if (err) {
-    console.log({err});
-    return;
-  }
-});
-
-client.query(`INSERT INTO messages (name, msg) VALUES ('hackermans', '1337')`, (err, res) => {
-  if (err) {
-    console.log({err});
-    return;
-  }
-});
-
 client.query(`SELECT * FROM messages`, (err, res) => {
   if (err) {
     console.log({err});
@@ -121,8 +107,8 @@ io.use((socket, next) => {
 
       console.log({res});
 
-      for (let message of res) {
-        let nick = message.user;
+      for (let message of res.rows) {
+        let nick = message.name;
         let text = message.msg;
   
         socket.emit('message', {nick, text});
@@ -138,6 +124,6 @@ io.use((socket, next) => {
     io.emit('message', {
       text: msg.text,
       nick: socket.decoded.nickname
-    })
-  })
+    });
+  });
 });
