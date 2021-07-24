@@ -44,10 +44,10 @@ client.query(`
 --@block
 CREATE TABLE IF NOT EXISTS messages(
     id SERIAL PRIMARY KEY,
-    user VARCHAR(16) NOT NULL,
-    msg VARCHAR(2048) NOT NULL,
-    CONSTAINT fk_user
-      FOREIGN KEY (user)
+    user VARCHAR(16),
+    msg VARCHAR(2048),
+    CONSTRAINT fk_user
+      FOREIGN KEY(user)
         REFERENCES users(name)
 );
 `, (err, res) => {
