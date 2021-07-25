@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang='en'>
+
 <head>
     <link rel='icon' href='../favicon.ico'>
     <link rel='stylesheet' href='../style.css'>
     <title>Log in @just-chat</title>
 </head>
+
 <body>
     <div class='navbar'>
         <a href="/"><img class='logo' src='../logo.gif'></a>
         <span id='status' class='status'></span>
-        <a class='button button-blue' href='/signup'>Register</a>
+        <a class='button button-blue' href='/signup'>Sign up</a>
     </div>
     <div class='loginForm'>
         <h1 class='title'>Log into your account</h1>
@@ -18,23 +20,16 @@
             <a href='../signup'>Sign up</a>
         </p>
         <form id='login_form' action=''>
-            <input
-                type='text'
-                name='nickname'
-                class='input_field'
-                placeholder='Enter your nickname'
-            /><br>
-            <input
-                type='password'
-                name='password'
-                class='input_field'
-                placeholder='Enter your password'
-            /><br><br>
+            <input type='text' name='nickname' class='input_field' placeholder='Enter your nickname' /><br>
+            <input type='password' name='password' class='input_field' placeholder='Enter your password' /><br><br>
             <button class='button button-blue'>
                 Log in
             </button>
         </form>
     </div>
+
+    <script src='../cookie_notice.js'></script>
     <script src='login.js'></script>
 </body>
+
 </html>

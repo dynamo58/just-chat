@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>ToS @just-chat</title>
+    <link rel='icon' href='../favicon.ico'>
+    <link rel='stylesheet' href='../style.css'>
+</head>
+
+<body style="height: 500%">
+    <div class='navbar'>
+        <a href="/"><img class='logo' src='../logo.gif'></a>
+        <a id='log_button' class='button button-blue' href='/login'>Go to homepage</a>
+    </div>
+    <div class="tos">
+        <h1>Terms of Service (ToS)</h1>
+        <h3 id='aboutUs'>About us (me)</h3>
+        <p>
+            just-chat is a website ran with a simple goal of providing a fast and lightweight basic messaging service
+            ran by Marek Smolík, based in Czechia.
+        </p>
+        <h3>How service works and data handling</h3>
+        <p>
+            All of the material provided by just-chat is handled according to the source code of it, which can be found
+            <a href="https://github.com/dynamo58/just-chat">here</a> and in no other matter. No data of yours will be
+            shared with any third-party outside the service provider.
+        </p>
+        <h3>Content of the website</h3>
+        <p>
+            just-chat has not reviewed all of the sites linked to its website and is not responsible for the contents of
+            any such linked site. The presence of any link does not imply endorsement by just-chat of the site. The use
+            of any linked website is at the user’s own risk. Furthermore, just-chat does not make any representations
+            concerning the accuracy or reliability of the use of the materials on its website or otherwise relating to
+            such materials or any sites linked to this website.
+        </p>
+        <h3>Providers of service</h3>
+        <p>
+            All of the data is stored in a <a href='https://www.postgresql.org/'>postgresql</a> database provided by <a
+                href='heroku.com'>heroku.com</a>, which the entire service is hosted on. It uses the TLS 1.3 HTTPS
+            encryption to make sure the data submitted is being transported securely.
+        </p>
+        <h3>Data collection and related actions</h3>
+        <p>
+            Further, just-chat doesn't collect any data other that the ones integral to the working of the service (the
+            only data analyzed is registration information [username, password, date of creation], sent messages and the
+            'Contant Us' form data). We <b>do not</b> collect any data about the user's location/ hardware and software
+            specification, etc. All of the data related to your account can be downloaded <a
+                href='#downloadData'>here</a>, deleted <a href='#deleteAccount'>here</a>, for any feedback and inquiries
+            contact us <a href='#contactUs'>here</a>.
+        </p>
+        <h3 id="cookies">Cookies</h3>
+        <p>
+            just-chat uses <a href="https://datatracker.ietf.org/doc/html/rfc6265">cookies</a> to keep
+            you logged in and also to maintain a socket connection and also to keep you logged in upon reconnect.
+        </p>
+        <h3 id="breach">In case of a data breach</h3>
+        <p>
+            In case a data breach is detected, all of the services will be taken down for maintenance and all of the
+            service interfaces will display notification disclosing all known information about the breach (date of
+            occurence, possible data leaked, etc.).
+        </p>
+
+        <div id='button_div'>
+            <div style='display: flex;align-items: center;justify-content: center;'>
+                <div>
+                    <a id='downloadData' class='button button-blue'>Download data</a>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div>
+                    <a id='deleteAccount' class='button button-blue'>Delete account</a>
+                </div>
+            </div>
+        </div>
+        <div style='text-align: center;width:100%'>
+            <form id='contact_form' action='' style='padding-top: 3em;'>
+                <input type='text' name='message' class='input_field' placeholder='Leave us a message'
+                    style='width:100%' /><br>
+                <button class='button button-blue'>
+                    Send message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src='tos.js'></script>
+</body>
+
+</html>

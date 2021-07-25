@@ -1,11 +1,8 @@
-//document.getElementById('messages').setAttribute('height');
 window.onload = () => {
-    let h =document.getElementById('messages').clientHeight;
+    let h = document.getElementById('messages').clientHeight;
     document.getElementById('messages').style.maxHeight = h + "px";
 
     const socket = io.connect();
-
-    //console.log(socket);
 
     let form = document.getElementById('form');
     let input = document.getElementById('input');
@@ -50,7 +47,7 @@ window.onload = () => {
         fake_item.classList.add('fake_message');
 
         if (msg.nick == socket.clientNickname) {
-            item.innerHTML = `<span class="message_content">${msg.text}</span>` ;
+            item.innerHTML = `<span class="message_content">${msg.text}</span>`;
             own_messages.appendChild(item);
             foreign_messages.appendChild(fake_item);
         } else {

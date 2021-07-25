@@ -58,7 +58,6 @@ form.addEventListener('submit', async (e) => {
     )
         .then(res => res.json())
         .then(res => {
-            console.log(res);
             let response_info = document.createElement('p');
             if (res.error) {
                 response_info.setAttribute('id', 'processing_err');

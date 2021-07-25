@@ -1,3 +1,5 @@
+$bg_accent_dark: #5f7c28;
+
 html, body {
     margin: 0;
     height: 100%;
@@ -53,6 +55,10 @@ li {
     &.button-blue {
         background-color: #3e8cb9aa;
     }
+}
+
+.button:hover {
+    cursor: pointer;
 }
 
 .signupForm, .loginForm {
@@ -171,4 +177,39 @@ li {
     margin: 0 1em;
     border-radius: 100px;
     min-width: 3em;
+}
+
+.tos {
+    width: unquote("min(50em, 90%)");
+    margin: 0 auto;
+    padding: 0 0.6em;
+    border-left: 2px solid #606060;
+    border-right: 2px solid #606060;
+    &> h1, h3, h5 {
+        text-align: center;
+    }
+    &> h3:not(:first-child) {
+        margin-top: 2em;
+    }
+}
+
+.cookie_consent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(225deg, rgba(106,58,142,1) 3%, rgba(57,33,17,1) 96%);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-top: 1px solid #afafaf;
+    text-align: center;
+    &> div a.button {
+        margin: 0 1em;
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }

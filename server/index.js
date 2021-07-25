@@ -1,6 +1,6 @@
 try {
   require('dotenv').config();
-} catch {}
+} catch { }
 
 const express = require('express');
 const app = express();
@@ -14,7 +14,7 @@ http.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-// connect to database
+
 const connectionString = process.env.DATABASE_URL
 const client = new Client({
   connectionString,
@@ -26,8 +26,6 @@ const client = new Client({
 client.connect();
 
 client.query(`
-DROP TABLE messages;
-DROP TABLE users;
 CREATE TABLE IF NOT EXISTS users(
   id SERIAL PRIMARY KEY,
   name VARCHAR(16) UNIQUE NOT NULL,
@@ -35,10 +33,10 @@ CREATE TABLE IF NOT EXISTS users(
 );
 `, (err, res) => {
   if (err) {
-    console.log({err});
+    console.log({ err });
     return;
   }
-})
+});
 
 client.query(`
 CREATE TABLE IF NOT EXISTS messages(
@@ -51,19 +49,23 @@ CREATE TABLE IF NOT EXISTS messages(
 );
 `, (err, res) => {
   if (err) {
-    console.log({err});
+    console.log({ err });
     return;
   }
 });
 
-client.query(`SELECT * FROM messages`, (err, res) => {
+client.query(`
+CREATE TABLE IF NOT EXISTS inquiries(
+    id SERIAL PRIMARY KEY,
+    msg VARCHAR(2047) NOT NULL
+);
+`, (err, res) => {
   if (err) {
-    console.log({err});
+    console.log('test', err);
     return;
   }
-
-  console.log(res.rows);
 });
+
 
 // Handle HTML requests
 const path = require('path');
@@ -76,11 +78,12 @@ app.use('/', require('./routes/home'));
 app.use('/signup', require('./routes/signup'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
+app.use('/tos', require('./routes/tos'));
 
 const jwt = require('jsonwebtoken');
 io.use((socket, next) => {
   let cookie = socket.handshake.headers.cookie;
-  cookie = cookie.substr(cookie.indexOf('_a=')+3);
+  cookie = cookie.substr(cookie.indexOf('_a=') + 3);
   jwt.verify(cookie, process.env.JWT_KEY, (err, decoded) => {
     if (err) {
       socket.emit('authentification result', {
@@ -103,24 +106,22 @@ io.use((socket, next) => {
   socket.on('request previous messages', async () => {
     client.query(`SELECT * FROM messages ORDER BY id ASC`, (err, res) => {
       if (err) {
-        console.log({err});
+        console.log({ err });
         return;
       }
-
-      console.log({res});
 
       for (let message of res.rows) {
         let nick = message.name;
         let text = message.msg;
-  
-        socket.emit('message', {nick, text});
+
+        socket.emit('message', { nick, text });
       }
     });
   });
 
   socket.on('message', async (msg) => {
     client.query(`INSERT INTO messages (name, msg) VALUES ('${socket.decoded.nickname}', '${msg.text}');`, (err, res) => {
-      if (err) console.log({err});
+      if (err) console.log({ err });
     });
 
     io.emit('message', {

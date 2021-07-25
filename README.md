@@ -1,7 +1,9 @@
-# Warning ⚠️
-**This application is being worked on and is not yet ready for usage**
 
-# About
+<p align='center'>
+    <img width='256px' height='32px' src='./public/logo.gif'>
+</p>
+
+# About just-chat
 
 just-chat is a very simple chat app made with [Node.js](https://nodejs.org/en/) and especially [socket.io](https://socket.io/). It is very simple, lightweight and deploy-ready.
 

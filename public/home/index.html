@@ -10,7 +10,7 @@
     <link rel='stylesheet' href='../style.css'>
 </head>
 
-<body>
+<body id='home-body'>
     <div class='navbar'>
         <a href="/"><img class='logo' src='../logo.gif'></a>
         <span id='status' class='status'>~ not logged in ~</span>
@@ -25,21 +25,16 @@
                 <ul id='own_messages'></ul>
             </div>
         </div>
-        
+
         <div class="send_message_panel">
             <form id='form' action=''>
-                <input
-                    id='input' 
-                    placeholder='Send a message' 
-                    autocomplete='off'
-                />
+                <input id='input' placeholder='Send a message' autocomplete='off' />
                 <button id='send_button'>Send</button>
             </form>
         </div>
     </div>
 
-    <script src='/socket.io/socket.io.js'></script>
-    <script src='../home/home.js'></script>
+    <script src='../cookie_notice.js'></script>
 </body>
 
 </html>

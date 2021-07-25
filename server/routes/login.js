@@ -5,7 +5,7 @@ const path = require('path');
 let publicDir = path.join(__dirname, '..', '..', 'public', 'login');
 
 router.get('/', async (req, res, next) => {
-    res.sendFile('index.html', {root: publicDir}, (err) => {
+    res.sendFile('index.html', { root: publicDir }, (err) => {
         if (err) console.log(err);
     });
 });
@@ -13,7 +13,8 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
     const bcrypt = require('bcrypt');
     const { Client } = require('pg');
-    const connectionString = process.env.DATABASE_URL;
+
+    const connectionString = process.env.DATABASE_URL
     const client = new Client({
         connectionString,
         ssl: {
@@ -31,7 +32,7 @@ router.post('/', async (req, res, next) => {
             error: true,
             message: 'Nickname or password invalid'
         });
-      return;
+        return;
     }
 
     client.query(`SELECT * FROM users WHERE name='${req.body.nickname}'`, (err, queryRes) => {
@@ -55,28 +56,28 @@ router.post('/', async (req, res, next) => {
                     message: 'Server-side error has occured, please try again'
                 });
             }
-    
+
             if (result) {
                 const jwt = require('jsonwebtoken');
-    
+
                 const token = jwt.sign(
-                {
-                    nickname: queryRes.rows[0].name,
-                    id: queryRes.rows[0].id
-                },
-                process.env.JWT_KEY,
-                {
-                    expiresIn: "1h"
-                });
-    
-                res.cookie('_a', token, {maxAge: 3600000, sameSite: 'strict', secure: true});
-    
+                    {
+                        nickname: queryRes.rows[0].name,
+                        id: queryRes.rows[0].id
+                    },
+                    process.env.JWT_KEY,
+                    {
+                        expiresIn: "1h"
+                    });
+
+                res.cookie('_a', token, { maxAge: 3600000, sameSite: 'strict', secure: true });
+
                 return res.status(200).json({
                     error: false,
                     message: "Sucessfully logged in",
                 })
             }
-    
+
             return res.status(400).json({
                 error: true,
                 message: 'Nickname or password invalid'

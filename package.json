@@ -1,7 +1,7 @@
 {
     "name": "socket.io-chat-application",
     "version": "0.0.1",
-    "description": "Basic chat application to learn socket.io",
+    "description": "Basic chat application with socket.io",
     "scripts": {
         "nodemon": "nodemon server/index.js",
         "start": "node server/index.js"
