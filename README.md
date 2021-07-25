@@ -5,7 +5,7 @@
 
 # About just-chat
 
-just-chat is a very simple chat app made with [Node.js](https://nodejs.org/en/) and especially [socket.io](https://socket.io/). It is very simple, lightweight and deploy-ready.
+just-chat is a very simple chat app made with [Node.js](https://nodejs.org/en/) and [socket.io](https://socket.io/). It is very simple, lightweight and deploy-ready.
 
 # How to run locally
 
@@ -14,4 +14,4 @@ just-chat is a very simple chat app made with [Node.js](https://nodejs.org/en/) 
 3. `npm install`
 4. `npm start`
 
-Now the application is running from the terminal and you is available at localhost:3000.
+Note that you must have a PostgreSQL server, address has to be added to the environment variables (the server must have SSL enabled, otherwise you'd need to go and modify a couple of files in the repo). If you've done that, the application is running from the terminal and is available at localhost:3000.
